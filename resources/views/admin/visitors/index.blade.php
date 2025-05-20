@@ -48,6 +48,12 @@
                         <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#checkInModal{{ $visitor->id }}">
                             <i class="fas fa-qrcode"></i> Check In
                         </button>
+                        <form action="{{ route('admin.visitor.destroy', $visitor->id) }}" method="POST" class="d-inline">
+                            @csrf @method('DELETE')
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Delete this visitor?')">
+                                Delete
+                            </button>
+                        </form>
                     </td>
                 </tr>
 

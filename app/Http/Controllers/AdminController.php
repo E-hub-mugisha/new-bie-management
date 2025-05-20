@@ -225,4 +225,10 @@ class AdminController extends Controller
         // Optionally show a success screen
         return view('admin.visitors.checkin-success', compact('visitor'));
     }
+    public function destroyVisitor($id)
+    {
+        $visitor = Visitor::findOrFail($id);
+        $visitor->delete();
+        return redirect()->back()->with('success', 'Visitor deleted successfully.');
+    }
 }

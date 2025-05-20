@@ -11,7 +11,7 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 Route::get('/', function () {
     $visitor_number = 'V123456';
-    return view('welcome' , compact('visitor_number'));
+    return view('welcome', compact('visitor_number'));
 });
 
 Route::get('/test-qr', function () {
@@ -38,7 +38,7 @@ Route::get('/test-qr', function () {
 
 Route::get('/home', function () {
     $visitor_number = 'V123456';
-    return view('welcome' , compact('visitor_number'));
+    return view('welcome', compact('visitor_number'));
 })->name('home');
 
 Route::get('/about', function () {
@@ -80,7 +80,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::put('/admin/visit/{id}/checkout', [AdminController::class, 'checkoutAdmin'])->name('admin.visitors.checkout');
     Route::post('/admin/visitors/{id}', [AdminController::class, 'newVisitStore'])->name('admin.visitors.newStore');
     Route::post('/admin/visitors', [AdminController::class, 'storeAdmin'])->name('admin.visitors.store');
-
+    Route::delete('/admin/visitor/{id}', [AdminController::class, 'destroyVisitor'])->name('admin.visitor.destroy');
     Route::post('/admin/visitors/{id}/generate-qr', [AdminController::class, 'generateQR'])->name('admin.visitors.generateQR');
 
 
