@@ -68,46 +68,6 @@
                     </li>
                 </ul>
 
-                <!-- Visitor Modal Trigger -->
-                <div class="mt-6" x-data="{ open: false }">
-                    <button @click="open = true"
-                        class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
-                        Show Visitor QR
-                    </button>
-
-                    <!-- Modal -->
-                    <div x-show="open" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-                        <div @click.away="open = false"
-                            class="bg-white dark:bg-[#161615] rounded-lg w-[90%] max-w-md p-6 shadow-lg relative">
-                            <button @click="open = false" class="absolute top-2 right-2 text-gray-500 hover:text-red-600 text-xl">&times;</button>
-
-                            <h2 class="text-lg font-semibold mb-4 text-center">Visitor QR Code</h2>
-
-                            <!-- QR Code -->
-                            <div class="flex justify-center mb-4">
-                                <img src="{{ asset('images/sample-qr.png') }}" alt="QR Code" class="w-40 h-40 border p-2 rounded" />
-                            </div>
-
-                            <!-- Check-in and Check-out Buttons -->
-                            <div class="flex justify-between gap-4">
-                                <form action="{{ route('visitor.checkin', ['visitor_number' => $visitor_number]) }}" method="POST" class="w-full">
-                                    @csrf
-                                    <button type="submit"
-                                        class="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded">
-                                        Check In
-                                    </button>
-                                </form>
-                                <form action="{{ route('visitor.checkout', ['visitor_number' => $visitor_number]) }}" method="POST" class="w-full">
-                                    @csrf
-                                    <button type="submit"
-                                        class="w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded">
-                                        Check Out
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <!-- Image Section -->
