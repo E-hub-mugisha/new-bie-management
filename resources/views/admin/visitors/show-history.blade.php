@@ -16,7 +16,7 @@
     </div>
 
     <div class="table-responsive mt-6 mb-6 px-6 py-4 bg-white shadow-md">
-        <table class="table table-striped">
+        <table class="table dataTable table-striped">
             <thead>
                 <tr>
                     <th>Visitor Number</th>

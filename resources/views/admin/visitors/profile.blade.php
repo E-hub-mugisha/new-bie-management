@@ -19,6 +19,7 @@
 
         <!-- Visitor Details -->
         <div class="col-md-5">
+
             <div class="mb-4 mt-6 mb-6 px-6 py-4 bg-white shadow-md">
                 <h3>Visitor Details</h3>
                 <div>
@@ -43,6 +44,27 @@
                         </li>
                     </ul>
 
+                    @if ($visitor->qr_code)
+                    <div class="mt-4 text-center">
+                        <h5 class="mb-4">Visitor QR Code</h5>
+                        <img src="{{ $visitor->qr_code }}" alt="Visitor QR Code" width="200" height="200" class="mx-auto d-block">
+                        <p class="mt-2"><small>{{ $visitor->visitor_number }}</small></p>
+                        <a href="{{ $visitor->qr_code }}" class="btn btn-outline-primary btn-sm mt-2" download>
+                            <i class="fas fa-download"></i> Download QR Code
+                        </a>
+                    </div>
+                    @else
+                    <div class="mt-4 text-center">
+                        <h5 class="mb-4 text-danger">QR Code Not Generated</h5>
+                        <form action="{{ route('admin.visitors.generateQR', $visitor->id) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-qrcode"></i> Generate QR Code
+                            </button>
+                        </form>
+                    </div>
+                    @endif
+
                 </div>
             </div>
         </div>
@@ -57,7 +79,7 @@
                         No visit history found for this visitor.
                     </div>
                     @else
-                    <table class="table table-striped table-hover">
+                    <table class="table dataTable table-striped table-hover">
                         <thead>
                             <tr>
                                 <th>Visit Date</th>
@@ -89,6 +111,5 @@
         </div>
     </div>
 </div>
-
 
 @endsection

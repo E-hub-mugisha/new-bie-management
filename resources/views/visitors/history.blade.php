@@ -13,7 +13,7 @@
 
 
     <div class="table-responsive px-6 py-4 bg-white shadow-md">
-        <table class="table table-striped">
+        <table class="table dataTable table-striped">
             <thead>
                 <tr>
                     <th>Visitor Number</th>
@@ -78,3 +78,4 @@
 
 
 @endsection
+

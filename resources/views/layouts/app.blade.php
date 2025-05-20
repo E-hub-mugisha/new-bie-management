@@ -25,6 +25,10 @@
     <!-- datatables -->
     <link href="{{ asset('assets/plugins/datatables/dataTables.min.css') }}" rel="stylesheet">
 
+    <!-- DataTables + Buttons CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
+
     <!-- Include SweetAlert2 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     <!-- Scripts -->
@@ -43,15 +47,61 @@
     @include('includes.footer')
 
     <script src="{{ asset('assets/dist/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatables/dataTables.min.js') }}"></script>
+    <!-- jQuery (required if not already loaded) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    
+    <!-- DataTables core + Buttons JS -->
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.flash.min.js"></script>
 
+    <!-- Export dependencies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/vfs_fonts.js"></script>
+
+  
     <script>
         $(document).ready(function() {
-            $('#dataTable').DataTable();
+            $('.dataTable').DataTable({
+                dom: 'Bfrtip', // Add buttons on top
+                buttons: [{
+                        extend: 'copyHtml5',
+                        text: 'Copy',
+                        className: 'btn btn-secondary'
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        text: 'Excel',
+                        className: 'btn btn-success'
+                    },
+                    {
+                        extend: 'csvHtml5',
+                        text: 'CSV',
+                        className: 'btn btn-info'
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        text: 'PDF',
+                        className: 'btn btn-danger'
+                    },
+                    {
+                        extend: 'print',
+                        text: 'Print',
+                        className: 'btn btn-primary'
+                    }
+                ],
+                paging: true,
+                ordering: true,
+                info: true,
+                responsive: true
+            });
         });
     </script>
+
+
 </body>
 
 </html>

@@ -3,8 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\VisitorHistory;
+use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class VisitorHistorySeeder extends Seeder
 {
@@ -13,19 +15,31 @@ class VisitorHistorySeeder extends Seeder
      */
     public function run(): void
     {
-        //
-        VisitorHistory::create([
-            'visitor_id' => 1,
-            'visit_date' => '2025-03-22',
-            'purpose' => 'Business Meeting',
-            'status' => 'Completed',
-        ]);
+        $purposes = ['Meeting', 'Delivery', 'Interview', 'Maintenance', 'Tour'];
+        $statuses = ['Checked In', 'Checked Out'];
 
-        VisitorHistory::create([
-            'visitor_id' => 2,
-            'visit_date' => '2025-03-23',
-            'purpose' => 'Interview',
-            'status' => 'Pending',
-        ]);
+
+        // Get all existing visitor IDs
+        $visitorIds = DB::table('visitors')->pluck('id')->toArray();
+
+        if (empty($visitorIds)) {
+            $this->command->warn('No visitors found. Run VisitorSeeder first.');
+            return;
+        }
+        // Assuming you already have 10 visitors with IDs 1 to 10
+        foreach (range(1, 10) as $visitorId) {
+            $checkIn = Carbon::now()->subDays(rand(1, 30))->setTime(rand(8, 11), rand(0, 59));
+            $checkOut = (clone $checkIn)->addHours(rand(1, 4));
+
+            DB::table('visitor_histories')->insert([
+                'visitor_id' => $visitorId,
+                'check_in' => $checkIn,
+                'check_out' => $checkOut,
+                'purpose' => $purposes[array_rand($purposes)],
+                'status' => 'Checked Out',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
     }
 }

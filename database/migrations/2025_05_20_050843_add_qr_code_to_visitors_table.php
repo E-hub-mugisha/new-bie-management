@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('visitors', function (Blueprint $table) {
-            //
-            $table->string('address')->after('phone');
+            $table->string('reason')->nullable();
+            $table->string('qr_code')->nullable();
         });
     }
 
@@ -23,7 +23,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('visitors', function (Blueprint $table) {
-            //
+            $table->dropColumn('reason');
+            $table->dropColumn('qr_code');
         });
     }
 };

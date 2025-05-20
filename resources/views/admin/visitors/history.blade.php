@@ -11,7 +11,7 @@
         </a>
     </div>
     <div class="table-responsive mt-6 mb-6 px-6 py-4 bg-white shadow-md">
-        <table class="table table-striped">
+        <table class="table dataTable table-striped">
             <thead>
                 <tr>
                     <th>Visitor Number</th>
@@ -62,7 +62,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                 <!-- Check-Out Form -->
-                <form action="{{ route('reception.visitors.checkout', $history->id) }}" method="POST" style="display:inline;">
+                <form action="{{ route('admin.visitors.checkout', $history->id) }}" method="POST" style="display:inline;">
                     @csrf
                     @method('PUT') <!-- Use @method('PUT') to send a PUT request -->
                     <button type="submit" class="btn btn-success">Confirm Check-Out</button>

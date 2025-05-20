@@ -47,7 +47,6 @@ class VisitorController extends Controller
      */
     public function store(Request $request)
     {
-        // Validate the request
         $request->validate([
             'name' => 'required',
             'identification_number' => 'required',
@@ -58,32 +57,48 @@ class VisitorController extends Controller
             'purpose' => 'required',
         ]);
 
-        // Check if a visitor already exists with the given identification number
         $existingVisitor = Visitor::where('identification_number', $request->identification_number)->first();
-
         if ($existingVisitor) {
-            // If the visitor already exists, return an error message
             return redirect()->back()->with([
                 'alert_type' => 'error',
                 'alert_message' => 'Visitor Already exists!'
             ]);
         }
 
-        // Generate a unique visitor number (e.g., prefix + timestamp or incrementing ID)
+        $lastVisitor = Visitor::latest()->first();
         $visitor_number = 'VST' . now()->format('Ymd') . str_pad(($lastVisitor?->id ?? 0) + 1, 3, '0', STR_PAD_LEFT);
 
         $visitor = new Visitor();
         $visitor->identification_number = $request->identification_number;
         $visitor->identification_type = $request->identification_type;
-        $visitor->user_id = Auth::user()->id;
+        $visitor->user_id = Auth::id();
         $visitor->visitor_number = $visitor_number;
         $visitor->phone = $request->phone;
         $visitor->name = $request->name;
         $visitor->address = $request->address;
         $visitor->email = $request->email;
 
+        // Generate QR code (SVG) with your style
+        $qrDir = public_path('qr_codes');
+        $qrPath = $qrDir . '/' . $visitor_number . '.svg';
+
+        if (!file_exists($qrDir)) {
+            mkdir($qrDir, 0755, true);
+        }
+
+        if (!file_exists($qrPath)) {
+            $qrImage = QrCode::format('svg')
+                ->size(200)
+                ->generate(route('visitor.checkin', $visitor_number));
+            file_put_contents($qrPath, $qrImage);
+        }
+
+        $qrUrl = asset('qr_codes/' . $visitor_number . '.svg');
+
+        $visitor->qr_code = $qrUrl;
         $visitor->save();
 
+        // Save visit history
         $visitorHistory = new VisitorHistory();
         $visitorHistory->visitor_id = $visitor->id;
         $visitorHistory->purpose = $request->purpose;
@@ -91,14 +106,7 @@ class VisitorController extends Controller
         $visitorHistory->status = 'Pending';
         $visitorHistory->save();
 
-        // Generate the QR code with a link to the check-in page (you can add the visitor number or ID to the URL)
-        $qrCode = QrCode::size(200)->generate(route('visitor.checkin', $visitor->visitor_number));
-
-        // Save the QR code as an image (optional)
-        $qrCodePath = public_path('qr_codes/' . $visitor->visitor_number . '.png');
-        file_put_contents($qrCodePath, $qrCode);
-
-        // Send Email Notification
+        // Send email
         Mail::to($visitor->email)->send(new VisitNotification($visitor));
 
         return redirect()->back()->with([
@@ -106,7 +114,6 @@ class VisitorController extends Controller
             'alert_message' => 'Visitor Checked In Successfully! A confirmation email has been sent.'
         ]);
     }
-
 
     /**
      * Display the specified resource.

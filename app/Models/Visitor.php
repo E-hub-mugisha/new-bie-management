@@ -16,7 +16,10 @@ class Visitor extends Model
         'name', 
         'email',
         'address', 
-        'phone'];
+        'phone',
+        'reason',
+        'qr_code'
+    ];
 
     // Relationship: Each visitor has many visitor histories
     public function histories()

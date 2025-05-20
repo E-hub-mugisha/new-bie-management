@@ -19,7 +19,7 @@
 
 
     <div class="table-responsive px-6 py-4 bg-white shadow-md">
-    <!-- Visitors List Table -->
+        <!-- Visitors List Table -->
         <table class="table dataTable table-striped">
             <thead>
                 <tr>
@@ -46,7 +46,10 @@
                         <a href="{{ route('visitor.history.show', $visitor->id) }}" class="btn btn-secondary btn-sm">
                             <i class="fas fa-history"></i> View History
                         </a>
-
+                        <!-- QR Code Check In -->
+                        <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#checkInModal{{ $visitor->id }}">
+                            <i class="fas fa-qrcode"></i> Check In
+                        </button>
                         <!-- Add New Visit Button -->
                         <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addVisitModal{{ $visitor->id }}">
                             <i class="fas fa-calendar-plus"></i> Add New Visit
@@ -101,7 +104,23 @@
                         </div>
                     </div>
                 </div>
-
+                <!-- Modal: QR Code Check In -->
+                <div class="modal fade" id="checkInModal{{ $visitor->id }}" tabindex="-1" aria-labelledby="checkInModalLabel{{ $visitor->id }}" aria-hidden="true">
+                    <div class="modal-dialog modal-sm modal-dialog-centered">
+                        <div class="modal-content text-center">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Check In - {{ $visitor->name }}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Scan this QR code to check in:</p>
+                                <div class="d-flex justify-content-center">
+                                    <img src="https://api.qrserver.com/v1/create-qr-code/?data={{ urlencode(route('visitor.qr.checkin', $visitor->id)) }}&size=200x200" alt="QR Code">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 @endforeach
             </tbody>
         </table>

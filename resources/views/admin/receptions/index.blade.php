@@ -22,7 +22,7 @@
 
     <!-- Receptionist Table -->
     <div class="table-responsive mt-6 mb-6 px-6 py-4 bg-white shadow-md">
-        <table class="table table-hover table-bordered">
+        <table class="table dataTable table-hover table-bordered">
             <thead>
                 <tr>
                     <th>Name</th>

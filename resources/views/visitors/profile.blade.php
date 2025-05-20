@@ -55,7 +55,7 @@
                     No visit history found for this visitor.
                 </div>
                 @else
-                <table class="table table-striped table-hover">
+                <table class="table dataTable table-striped table-hover">
                     <thead>
                         <tr>
                             <th>Visit Date</th>
