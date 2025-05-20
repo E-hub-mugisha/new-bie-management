@@ -37,8 +37,7 @@ Route::get('/test-qr', function () {
 
 
 Route::get('/home', function () {
-    $visitor_number = 'V123456';
-    return view('welcome', compact('visitor_number'));
+    return view('welcome');
 })->name('home');
 
 Route::get('/about', function () {
